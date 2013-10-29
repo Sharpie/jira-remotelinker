@@ -14,10 +14,11 @@ Gem::Specification.new do |spec|
   spec.license       = 'MIT'
 
   spec.files         = `git ls-files`.split($/)
-  spec.executables   = spec.files.grep(%r{^bin/}) { |f| File.basename(f) }
-  spec.test_files    = spec.files.grep(%r{^(test|spec|features)/})
   spec.require_paths = ['lib']
+  spec.bindir        = 'bin'
+  spec.executables   = ['jira-remotelinker']
 
   spec.add_runtime_dependency 'methadone', '~> 1.3.0'
-
+  spec.add_runtime_dependency 'httparty', '~> 0.12.0'
+  spec.add_runtime_dependency 'progressbar'
 end

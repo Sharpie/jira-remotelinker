@@ -2,6 +2,11 @@
 
 require 'optparse'
 require 'methadone'
+require 'progressbar'
+
+require 'yaml'
+require 'csv'
+
 require 'jira-remotelinker'
 
 class App
@@ -13,8 +18,34 @@ class App
 
   use_log_level_option
 
-  main do
-    info 'hello, world!'
+  arg :jira_config, 'A YAML file containing configuration and API access info for the target JIRA instances'
+  arg :link_data, 'A CSV file containing issue link data'
+
+  main do |jira_config, link_data|
+    config = YAML.load_file jira_config
+
+    # Create a REST client for each JIRA instance defined in the config.
+    config.each do |_, instance|
+      instance['client'] = JiraRemotelinker::REST.factory instance['base_url'], instance['username'], instance['password'],
+        instance['name'], instance['uuid']
+    end
+
+    links = CSV.table link_data
+    pbar = ProgressBar.new 'making links', links.length
+
+    links.each do |row|
+      # Create link from source JIRA -> target JIRA
+      config[row[:source_instance]]['client'].post_issue_remotelink row[:source_key], row[:source_relation],
+        config[row[:target_instance]]['client'], row[:target_key], row[:target_id]
+
+      # Create reciprocal link from target JIRA -> source JIRA
+      config[row[:target_instance]]['client'].post_issue_remotelink row[:target_key], row[:target_relation],
+        config[row[:source_instance]]['client'], row[:source_key], row[:source_id]
+
+      pbar.inc
+    end
+
+    pbar.finish
   end
 
   go!

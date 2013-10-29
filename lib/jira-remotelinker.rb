@@ -1,5 +1,5 @@
-require 'jira-remotelinker/version'
-
 module JiraRemotelinker
-  # TODO
 end
+
+require 'jira-remotelinker/version'
+require 'jira-remotelinker/rest'
