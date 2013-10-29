@@ -1,0 +1,21 @@
+#!/usr/bin/env ruby
+
+require 'optparse'
+require 'methadone'
+require 'jira-remotelinker'
+
+class App
+  include Methadone::Main
+  include Methadone::CLILogging
+
+  description 'A small command line tool for creating remote links through the JIRA REST API'
+  version JiraRemotelinker::VERSION
+
+  use_log_level_option
+
+  main do
+    info 'hello, world!'
+  end
+
+  go!
+end
