@@ -11,7 +11,7 @@ module JiraRemotelinker
 
       # Sets three instance variables that represent a JIRA Application Link
       class << self
-        attr_accessor :type, :name, :uuid
+        attr_accessor :jira_type, :jira_name, :jira_uuid, :jira_url
       end
 
       def self.get_issue(issue_key)
@@ -24,14 +24,14 @@ module JiraRemotelinker
 
       def self.post_issue_remotelink(issue_key, relationship, target_jira, target_key, target_id)
         link_data = {
-          'globalId' => "appId=#{target_jira.uuid}&issueId=#{target_id}",
+          'globalId' => "appId=#{target_jira.jira_uuid}&issueId=#{target_id}",
           'application' => {
-            'type' => target_jira.type,
-            'name' => target_jira.name
+            'type' => target_jira.jira_type,
+            'name' => target_jira.jira_name
           },
           'relationship' => relationship,
           'object' => {
-            'url' => "#{target_jira.base_uri}/browse/#{target_key}",
+            'url' => "#{target_jira.jira_url}/browse/#{target_key}",
             'title' => target_key
           }
         }
@@ -55,9 +55,10 @@ module JiraRemotelinker
         # These are used during Remote Link creation and allow JIRA instances
         # to pull issue data from each other and ensure that users are properly
         # authorized to view such data.
-        klass.name = name
-        klass.uuid = uuid
-        klass.type = type
+        klass.jira_name = name
+        klass.jira_uuid = uuid
+        klass.jira_type = type
+        klass.jira_url = url
       end
     end
   end
