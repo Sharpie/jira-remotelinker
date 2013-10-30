@@ -66,7 +66,7 @@ public | 10042 | PUB-7 | duplicated by | private | 11555 | PRIV-42 | duplicates
 
 Once the YAML and CSV files have been created, the tool can be invoked:
 
-    jira-remoteliker jira_instances.yaml link_data.csv
+    jira-remotelinker jira_instances.yaml link_data.csv
 
 ---
 <p align="center">
