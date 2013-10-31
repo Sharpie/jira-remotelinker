@@ -10,14 +10,14 @@ Then, create a YAML file describing the JIRA instances along with the links that
 ```yaml
 public:
   base_url: 'https://jira6-public.example.com'
-  name: 'Name of Application Link for Private instance'
-  uuid: 'UUID of Application Link for Private instance'
+  name: 'Name of Application Link for Public instance retrieved from instance making the link'
+  uuid: 'UUID of Application Link for Public instance retrieved from instance making the link'
   username: 'some user with create link permissions'
   password: 'password for user'
 private:
   base_url: 'https://jira6-private.example.com'
-  name: 'Name of Application Link for Public instance'
-  uuid: 'UUID of Application Link for Public instance'
+  name: 'Name of Application Link for Private instance retrieved from instance making the link'
+  uuid: 'UUID of Application Link for Private instance retrieved from instance making the link'
   username: 'some user with create link permissions'
   password: 'password for user'
 ```
